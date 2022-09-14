@@ -1,15 +1,12 @@
 import express from 'express';
 import {allowCrossDomain} from "./middlewares/custom-header.mjs";
+import {log_path} from "./middlewares/log-path.mjs";
 
 const app = express();
 const port = 3000;
 
 app.use(allowCrossDomain)
-
-app.use((req, res, next) => {
-    console.log(req.path)
-    next();
-})
+app.use(log_path)
 
 app.get('/users', (req, res) => {
     res.json([

@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: A short description of API
+  termsOfService: https://example.com/terms/
+  contact:
+    name: API support
+    url: https://www.sample.com/support
+    email: support@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/license/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: https://dev.sample-server.com/v1
+    description: Development serve
+  - url: https://stg.sample-server.com/v1
+    description: Staging server
+  - url: https://api.sample-server.com/v1
+    description: Production server
+paths:
+  # path Object
+  /users:
+    # path item Object
+    get: # GET
+      # Operation Object
+      tags:
+        - users
+      summary: Get all users.
+      description: Returns an array of User model
+      parameters: []
+      responses: # Response Definition
+        '200': #HTTP status
+          description: A JSON array of User model
+          content:
+            application/json: #type of Response
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+                example: # Sample data
+                  - id: 1
+                    name: John Doe
+                  - id: 2
+                    name: Jane Doe
+    post: #POST
+      tags:
+        - users
+      summary: Create a new User
+      description: Create a new User
+      parameters: []
+      requestBody:
+        description: user to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              id: 3
+              name: Richard Roe
+      responses:
+        '201':
+          description: CREATED
+  /users/{userId}:
+    get:
+      tags:
+        - users
+      summary: Get user by ID
+      description: Returns a single User model
+      parameters: #Request parameters
+        - name: userId
+          in: path # parameter included in path
+          description: user id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single User model
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/User'
+                example:
+                  id: 1
+                  name: John Doe
+components:
+  schemas: # Schema object definition
+    User: # model name
+      type: object # type
+      required: #required fields
+        - id  # Property name
+      properties:
+        id: # Property name
+          type: integer
+          format: int64
+        name:
+          type: string
+    Product:
+      type: object
+      required:
+        - id
+        - price
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: LapTop
+        price:
+          type: integer
+          example: 1200
+security:
+  - api-key: []
+  - users_auth:
+      - write:users
+      - read:users
+tags:
+  - name: users
+    description: Access to Users
+  - name: products
+    description: Access to Products
+externalDocs:
+  description: Find more info here
+  url: https://example.com

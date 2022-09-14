@@ -28,8 +28,18 @@ app.get('/users', (req, res) => {
     res.json(users);
 });
 
-app.post('/users', (req, res) => {
-    console.log(req.body)
+app.post('/users', (req, res) => {  // create
+    let nextId = 0;
+    users.forEach(u => {
+        nextId = Math.max(nextId, u.id)
+    });
+    const user = {
+        name: 'new user',
+        ...req.body,
+        id: nextId + 1
+    };
+    users.push(user);
+
     res.status(201).send('CREATED');
 });
 

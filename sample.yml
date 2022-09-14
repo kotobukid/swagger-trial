@@ -56,7 +56,6 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
             example:
-              id: 3
               name: Richard Roe
       responses:
         '201':

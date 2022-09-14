@@ -1,7 +1,10 @@
 import express from 'express';
+import {allowCrossDomain} from "./middlewares/custom-header.mjs";
 
 const app = express();
 const port = 3000;
+
+app.use(allowCrossDomain)
 
 app.use((req, res, next) => {
     console.log(req.path)
@@ -12,8 +15,8 @@ app.get('/users', (req, res) => {
     res.json([
         {
             id: 1,
-            name: 'John Doe'
-            // name: 'John Doe Christian'
+            // name: 'John Doe'
+            name: 'John Doe Christian'
         }, {
             id: 2,
             name: 'Jane Doe'

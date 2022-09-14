@@ -13,23 +13,30 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(bodyParser.json())
 
+const users = [
+    {
+        id: 1,
+        // name: 'John Doe'
+        name: 'John Doe Christian'
+    }, {
+        id: 2,
+        name: 'Jane Doe'
+    }
+];
+
 app.get('/users', (req, res) => {
-    res.json([
-        {
-            id: 1,
-            // name: 'John Doe'
-            name: 'John Doe Christian'
-        }, {
-            id: 2,
-            name: 'Jane Doe'
-        }]
-    );
+    res.json(users);
 });
 
 app.post('/users', (req, res) => {
     console.log(req.body)
     res.status(201).send('CREATED');
 });
+
+app.get('/user/:userId', (req, res) => {
+    const user = users.find(u => `${u.id}` === req.params.userId);
+    res.json(user)
+})
 
 app.get('/', (req, res) => {
     res.send('Hello world')
